@@ -5,11 +5,11 @@ require_relative "lib/sperant_api/version"
 Gem::Specification.new do |spec|
   spec.name = "sperant-api"
   spec.version = SperantApi::VERSION
-  spec.authors = ["Eterniasoft"]
-  spec.email = [""]
+  spec.authors = ["Lee Palacios"]
+  spec.email = ["vitualizz@gmail.com"]
 
-  spec.summary = "Ruby client for Sperant API v3"
-  spec.description = "Client gem for Sperant API v3: projects, clients, and units. Configurable token and test/production environment."
+  spec.summary = "Unofficial Ruby client for Sperant API v3"
+  spec.description = "Unofficial client gem for Sperant API v3: projects, clients, and units. Configurable token and test/production environment. Not maintained by Sperant."
   spec.homepage = "https://github.com/eterniasoft/sperant-api-ruby"
   spec.required_ruby_version = ">= 2.7.0"
   spec.licenses = ["MIT"]

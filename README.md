@@ -2,6 +2,8 @@
 
 Cliente Ruby para la [API v3 de Sperant](https://sperant.gitbook.io/apiv3). Permite consultar proyectos, clientes y unidades de forma sencilla, con configuración de token y entorno (prueba o producción).
 
+**Esta gema no es oficial.** Es mantenida por Eterniasoft y no está respaldada por Sperant. La documentación oficial de la API está en [sperant.gitbook.io/apiv3](https://sperant.gitbook.io/apiv3).
+
 ## Instalación
 
 Añade la gema a tu `Gemfile`:
