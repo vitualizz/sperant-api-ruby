@@ -1,0 +1,31 @@
+---
+description: Arquitectura, directorios y buenas prácticas del proyecto (agnóstico)
+alwaysApply: true
+---
+
+# Arquitectura y buenas prácticas
+
+## Estructura de directorios
+
+- **`lib/`**: Punto de entrada único (`lib/<nombre_gem>.rb`) y submódulo `lib/<nombre_gem>/` con la lógica.
+- **`lib/<nombre_gem>/`**: Un archivo por responsabilidad: `version`, `constants`, `errors`, `configuration`, `connection`, `client`.
+- **`lib/<nombre_gem>/resources/`**: Un recurso por archivo; `base` contiene la lógica común (DRY). Nuevos recursos = nuevo archivo, sin tocar el cliente.
+- **`lib/<nombre_gem>/response/`**: Objetos de respuesta (p. ej. paginada) para no exponer hashes con keys literales.
+- **`spec/`**: Espejo de `lib/` cuando aplica: `spec/<nombre_gem>_spec.rb`, `spec/configuration_spec.rb`, `spec/resources/*_spec.rb`.
+
+**Uso**: Colocar cada clase/módulo en el archivo que corresponde a su responsabilidad. Evitar archivos “cajón de sastre”.
+
+## Principios
+
+- **SOLID**: Una clase = una responsabilidad. Configuración solo configura; conexión solo HTTP; cada recurso solo su endpoint. Inyectar dependencias (p. ej. `connection`) en lugar de acceder a globales.
+- **DRY**: Lógica común en una base (p. ej. `Resources::Base#get_list`). URLs, headers y paths en un módulo de constantes; nada de magic strings.
+- **Sin magic strings**: Usar constantes para entornos, URLs, nombres de headers y segmentos de path. Las respuestas se exponen como objetos con atributos (`.data`, `.meta`) en lugar de hashes con keys literales.
+- **Manejo de errores**: Jerarquía de excepciones (Error base, ConfigurationError, ApiError, RateLimitError). Lanzar excepciones específicas en lugar de devolver códigos o hashes de error.
+- **Herencia y composición**: Donde haya comportamiento compartido, extraer a una clase base o módulo. Los recursos heredan/incluyen la lógica común.
+- **Facade**: Un único punto de entrada para el usuario (p. ej. `Client`) que expone los recursos; la implementación HTTP y la configuración quedan encapsuladas.
+
+## Testing
+
+- Un spec por componente principal (configuración, conexión, cada recurso).
+- Reutilizar constantes de la gema en los tests; mockear la capa HTTP (p. ej. WebMock) en lugar de hacer peticiones reales.
+- Probar validaciones, construcción de URLs/params y que los errores esperados se lancen.
