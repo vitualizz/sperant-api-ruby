@@ -169,6 +169,16 @@ bundle install
 bundle exec rspec
 ```
 
+### Documentación (YARD)
+
+La API pública está documentada con [YARD](https://yardoc.org). Para generar la documentación HTML:
+
+```bash
+bundle exec yard doc
+```
+
+Se generará el directorio `doc/` con la documentación. Abre `doc/index.html` en el navegador.
+
 ## Licencia
 
 MIT. Ver [LICENSE](LICENSE).
