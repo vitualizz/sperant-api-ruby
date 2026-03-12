@@ -25,6 +25,14 @@ module SperantApi
         build_paginated_response(raw)
       end
 
+      # Realiza GET al path y devuelve el cuerpo de la respuesta (hash parseado).
+      # @param path [String, Array<String>] Segmentos del path (se unen con +/+).
+      # @return [Hash] Respuesta cruda de la API (suele incluir +data+ para un recurso).
+      def get_one(path)
+        path = Array(path).join("/")
+        connection.get(path)
+      end
+
       def build_paginated_response(raw)
         Response::Paginated.new(
           data: raw["data"] || [],

@@ -17,6 +17,18 @@ module SperantApi
         query = { q: q, page: page }.compact
         get_list(Constants::PATH_CLIENTS, query)
       end
+
+      # Obtiene un cliente por ID.
+      #
+      # @param id [Integer, String] ID del cliente.
+      # @return [Hash] Datos del cliente (contenido de +data+ en la respuesta de la API).
+      #
+      # @example
+      #   client_data = client.clients.find(123)
+      def find(id)
+        raw = get_one([Constants::PATH_CLIENTS, id])
+        raw["data"] || raw
+      end
     end
   end
 end

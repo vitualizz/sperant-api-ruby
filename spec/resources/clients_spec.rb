@@ -30,4 +30,17 @@ RSpec.describe SperantApi::Resources::Clients do
       expect(stub).to have_been_requested
     end
   end
+
+  describe "#find" do
+    it "requests GET /clients/:id and returns the client data" do
+      client_id = 123
+      body = { "data" => { "id" => client_id, "name" => "Cliente Ejemplo" } }
+      stub_request(:get, "#{base_url}/#{SperantApi::Constants::PATH_CLIENTS}/#{client_id}")
+        .to_return(status: 200, body: body.to_json, headers: { "Content-Type" => "application/json" })
+
+      result = resource.find(client_id)
+
+      expect(result).to eq("id" => client_id, "name" => "Cliente Ejemplo")
+    end
+  end
 end

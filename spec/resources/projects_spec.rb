@@ -31,4 +31,17 @@ RSpec.describe SperantApi::Resources::Projects do
       expect(stub).to have_been_requested
     end
   end
+
+  describe "#find" do
+    it "requests GET /projects/:id and returns the project data" do
+      project_id = 456
+      body = { "data" => { "id" => project_id, "name" => "Proyecto Ejemplo", "code" => "PRADOS" } }
+      stub_request(:get, "#{base_url}/#{SperantApi::Constants::PATH_PROJECTS}/#{project_id}")
+        .to_return(status: 200, body: body.to_json, headers: { "Content-Type" => "application/json" })
+
+      result = resource.find(project_id)
+
+      expect(result).to eq("id" => project_id, "name" => "Proyecto Ejemplo", "code" => "PRADOS")
+    end
+  end
 end

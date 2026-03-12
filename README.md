@@ -83,6 +83,48 @@ client = SperantApi::Client.new
 client.projects.list(q: "Prados")
 ```
 
+## Endpoints disponibles
+
+Resumen de qué hace cada endpoint para encontrarlos rápido:
+
+<details>
+<summary><strong>Proyectos</strong> — listar y obtener un proyecto por ID</summary>
+
+| Método | Descripción |
+|--------|-------------|
+| `client.projects.list` | Lista proyectos (paginado). Filtros: `code`, `q`, `page`. |
+| `client.projects.find(id)` | Obtiene un proyecto por su ID. |
+
+<pre>GET /v3/projects
+GET /v3/projects/:id</pre>
+</details>
+
+<details>
+<summary><strong>Clientes</strong> — listar y obtener un cliente por ID</summary>
+
+| Método | Descripción |
+|--------|-------------|
+| `client.clients.list` | Lista clientes (paginado). Filtros: `q` (documento/email/celular), `page`. |
+| `client.clients.find(id)` | Obtiene un cliente por su ID. |
+
+<pre>GET /v3/clients
+GET /v3/clients/:id</pre>
+</details>
+
+<details>
+<summary><strong>Unidades</strong> — listar y obtener una unidad por ID (dentro de un proyecto)</summary>
+
+| Método | Descripción |
+|--------|-------------|
+| `client.units.list(project_id:)` | Lista unidades de un proyecto (paginado). Filtros: `block_id`, `commercial_status_id`, `page`. |
+| `client.units.find(project_id:, id:)` | Obtiene una unidad por ID dentro del proyecto indicado. |
+
+<pre>GET /v3/projects/:project_id/units
+GET /v3/projects/:project_id/units/:id</pre>
+</details>
+
+---
+
 ## Uso básico
 
 ### Listar proyectos
@@ -103,12 +145,24 @@ response = client.projects.list(code: "PRADOS")
 response = client.projects.list(page: 2)
 ```
 
+### Obtener un proyecto por ID
+
+```ruby
+project = client.projects.find(456)   # Hash con los datos del proyecto
+```
+
 ### Listar clientes
 
 ```ruby
 response = client.clients.list
 response = client.clients.list(q: "+51999...")  # filtrar por documento, email o celular (con código de país)
 response = client.clients.list(page: 1)
+```
+
+### Obtener un cliente por ID
+
+```ruby
+client_data = client.clients.find(123)   # Hash con los datos del cliente
 ```
 
 ### Listar unidades de un proyecto
@@ -121,6 +175,12 @@ response = client.units.list(
   commercial_status_id: 1,         # 1=Disponible, 2=No disponible, etc. (opcional)
   page: 2
 )
+```
+
+### Obtener una unidad por ID
+
+```ruby
+unit = client.units.find(project_id: 7, id: 42)   # Hash con los datos de la unidad
 ```
 
 ## Respuesta paginada

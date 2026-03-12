@@ -1,0 +1,42 @@
+---
+description: Convenciones YARD para documentar la API pública de la gema
+globs: lib/**/*.rb
+alwaysApply: false
+---
+
+# Documentación YARD
+
+Documentar con [YARD](https://yardoc.org) toda la API pública en `lib/`. Generar docs con `bundle exec yard doc`.
+
+## Qué documentar
+
+- **Módulos y clases**: Breve descripción arriba del módulo/clase.
+- **Métodos públicos**: Descripción, `@param`, `@return`, y si aplica `@raise`, `@example`.
+- **Atributos** (`attr_reader`): Comentar con `# @return [Tipo] Descripción` encima del atributo.
+
+## Etiquetas habituales
+
+- `@param nombre [Tipo]` Descripción (opcional: indicar `nil` cuando sea opcional).
+- `@return [Tipo]` Qué devuelve el método.
+- `@raise [ClaseError]` Cuándo se lanza.
+- `@example` Bloque de código de uso.
+- `@see` URL o referencia a otra clase/método.
+
+## Ejemplo
+
+```ruby
+# Recurso de proyectos. Permite listar proyectos con filtros opcionales.
+class Projects < Base
+  # Lista proyectos (paginado, 20 por página por defecto).
+  #
+  # @param code [String, nil] Filtrar por código del proyecto.
+  # @param q [String, nil] Búsqueda (nombre, código, etc.).
+  # @param page [Integer, nil] Número de página.
+  # @return [Response::Paginated] Respuesta con +data+, +meta+, +links+ y +total_pages+.
+  #
+  # @example
+  #   response = client.projects.list(q: "Prados", page: 2)
+  def list(code: nil, q: nil, page: nil)
+```
+
+Clases internas (p. ej. `Connection`, `Constants`) pueden quedar sin documentar si no son parte de la API pública.

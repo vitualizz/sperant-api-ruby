@@ -18,6 +18,18 @@ module SperantApi
         query = { code: code, q: q, page: page }.compact
         get_list(Constants::PATH_PROJECTS, query)
       end
+
+      # Obtiene un proyecto por ID.
+      #
+      # @param id [Integer, String] ID del proyecto.
+      # @return [Hash] Datos del proyecto (contenido de +data+ en la respuesta de la API).
+      #
+      # @example
+      #   project_data = client.projects.find(456)
+      def find(id)
+        raw = get_one([Constants::PATH_PROJECTS, id])
+        raw["data"] || raw
+      end
     end
   end
 end

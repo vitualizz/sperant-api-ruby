@@ -20,6 +20,20 @@ module SperantApi
         query = { block_id: block_id, commercial_status_id: commercial_status_id, page: page }.compact
         get_list(path, query)
       end
+
+      # Obtiene una unidad por ID dentro de un proyecto.
+      #
+      # @param project_id [Integer] ID del proyecto.
+      # @param id [Integer, String] ID de la unidad.
+      # @return [Hash] Datos de la unidad (contenido de +data+ en la respuesta de la API).
+      #
+      # @example
+      #   unit_data = client.units.find(project_id: 7, id: 42)
+      def find(project_id:, id:)
+        path = [Constants::PATH_PROJECTS, project_id, Constants::PATH_UNITS, id]
+        raw = get_one(path)
+        raw["data"] || raw
+      end
     end
   end
 end
